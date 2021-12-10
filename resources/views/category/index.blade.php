@@ -1,5 +1,7 @@
 @extends('layouts.main')
 
+@section('title','Liste des catégories')
+
 @section('style')
     @parent
 

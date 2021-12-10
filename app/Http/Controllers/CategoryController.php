@@ -61,7 +61,9 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $category = Category::find($id);
+        
+        return view('category.edit',compact('category'));
     }
 
     /**
@@ -73,7 +75,20 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validated = $request->validate([
+            'nom' => 'required|min:3|max:15',
+        ]);
+        dd($validated); //array de tous les champs validés
+        
+        $nom = $request->input('nom');
+
+        $category = Category::find($id);    //dump($category);
+
+        $category->nom = $nom;              //dd($category);
+
+        $category->save();
+
+        return view('category.show',compact('category'));
     }
 
     /**
