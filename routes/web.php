@@ -19,6 +19,17 @@ Route::get('/', function () {
 });
 
 Route::get('/categories', [CategoryController::class,'index'])->name('categories.index');
-Route::get('/categories/{id}', [CategoryController::class,'show'])->name('categories.show');
-Route::get('/categories/{id}/edit', [CategoryController::class,'edit'])->name('categories.edit');
-Route::put('/categories/{id}', [CategoryController::class,'update'])->name('categories.update');
+Route::get('/categories/{id}', [CategoryController::class,'show'])
+    ->where('id', '[0-9]+')
+    ->name('categories.show');
+Route::get('/categories/{id}/edit', [CategoryController::class,'edit'])
+    ->where('id', '[0-9]+')
+    ->name('categories.edit');
+Route::put('/categories/{id}', [CategoryController::class,'update'])
+    ->where('id', '[0-9]+')
+    ->name('categories.update');
+Route::get('/categories/create', [CategoryController::class,'create'])->name('categories.create');
+Route::post('/categories', [CategoryController::class,'store'])->name('categories.store');
+Route::delete('/categories/{id}', [CategoryController::class,'destroy'])
+    ->where('id', '[0-9]+')
+    ->name('categories.destroy');

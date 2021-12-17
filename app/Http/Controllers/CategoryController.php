@@ -26,7 +26,9 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        $category = new Category();
+
+        return view('category.edit',compact('category'));
     }
 
     /**
@@ -37,7 +39,20 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'nom' => 'required|min:3|max:15|unique:App\Models\Category,nom',
+        ]);
+        //dd($validated); //array de tous les champs validés
+        
+        $nom = $request->input('nom');
+
+        $category = new Category();         //dump($category);
+
+        $category->nom = $nom;              //dd($category);
+
+        $category->save();
+
+        return view('category.show',compact('category'));
     }
 
     /**
@@ -76,9 +91,9 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
-            'nom' => 'required|min:3|max:15',
+            'nom' => 'required|min:3|max:15|unique:App\Models\Category,nom',
         ]);
-        dd($validated); //array de tous les champs validés
+        //dd($validated); //array de tous les champs validés
         
         $nom = $request->input('nom');
 
@@ -99,6 +114,10 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $category = Category::find($id);
+
+        $category->delete();
+
+        return redirect()->route('categories.index');
     }
 }

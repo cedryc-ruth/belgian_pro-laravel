@@ -11,20 +11,36 @@
 @endsection
 
 @section('content')
+@if(!$category->id)
+<h1>Ajout d'une catégorie</h1>
+@else
 <h1>Modification de la catégorie : {{ $category->nom }}</h1>
+@endif
 
-<form action="{{ route('categories.update', $category->id) }}" method="post">
+<form action="{{ 
+    ($category->id) ?
+    route('categories.update', $category->id) 
+    :
+    route('categories.store')
+}}" method="post">
     @csrf
-    @method('PUT')
-    
+    @if($category->id)
+        @method('PUT')
+    @endif
+
     <div>
         <label>Nom :</label>
-        <input type="text" name="nom" value={{ $category->nom }}>
+        <input type="text" name="nom" value={{ $category->nom ?? '' }}>
     @error('nom')
         <div class="alert alert-danger">{{ $message }}</div>
     @enderror
     </div>
+    
+    @if(!$category->id)
+    <button>Ajouter</button>
+    @else
     <button>Modifier</button>
+    @endif
 </form>
 
 @if ($errors->any())

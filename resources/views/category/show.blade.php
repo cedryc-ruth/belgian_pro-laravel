@@ -12,5 +12,5 @@
 
 @section('content')
 <h1>{{ $category->nom }}</h1>
-
+<a href="{{ route('categories.index') }}">Retour à la liste</a>
 @endsection
